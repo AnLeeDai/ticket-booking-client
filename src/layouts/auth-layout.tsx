@@ -1,4 +1,5 @@
 import { Outlet } from "react-router";
+import { ShieldCheck, FileText } from "lucide-react";
 
 export default function AuthLayout() {
   return (
@@ -63,10 +64,12 @@ export default function AuthLayout() {
 
           {/* Footer Links */}
           <div className="mt-8 flex justify-center gap-6 text-xs text-muted-foreground">
-            <a href="#" className="hover:underline">
+            <a href="#" className="hover:underline inline-flex items-center gap-1">
+              <ShieldCheck className="size-3" />
               CHÍNH SÁCH BẢO MẬT
             </a>
-            <a href="#" className="hover:underline">
+            <a href="#" className="hover:underline inline-flex items-center gap-1">
+              <FileText className="size-3" />
               ĐIỀU KHOẢN DỊCH VỤ
             </a>
           </div>

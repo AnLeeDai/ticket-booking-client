@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { useLogin } from "@/api/hooks/useLogin";
 import { pageRoute } from "@/configs/site-config";
+import { LogIn } from "lucide-react";
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
 
@@ -156,7 +157,7 @@ export default function LoginForm() {
       </Field>
 
       <Button type="submit" disabled={isSubmitting} className="mt-2">
-        {isPending ? <Spinner /> : "Đăng nhập"}
+        {isPending ? <Spinner /> : <><LogIn className="size-4" /> Đăng nhập</>}
       </Button>
 
       <div className="flex items-center gap-4 my-2 text-sm text-muted-foreground">

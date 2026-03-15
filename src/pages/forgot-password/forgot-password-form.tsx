@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Mail } from "lucide-react";
+import { Mail, RotateCw, ArrowRight, Send } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
@@ -103,9 +103,9 @@ export default function ForgotPasswordForm() {
           {isPending ? (
             <Spinner />
           ) : countdown > 0 ? (
-            `Gửi lại sau ${countdown}s`
+            <><RotateCw className="size-4" /> {`Gửi lại sau ${countdown}s`}</>
           ) : (
-            "Gửi lại email"
+            <><RotateCw className="size-4" /> Gửi lại email</>
           )}
         </Button>
 
@@ -113,7 +113,7 @@ export default function ForgotPasswordForm() {
           <Link
             to={`${pageRoute.resetPassword}?email=${encodeURIComponent(getValues("email"))}`}
           >
-            Đã nhận được mã
+            <ArrowRight className="size-4" /> Đã nhận được mã
           </Link>
         </Button>
       </div>
@@ -150,7 +150,7 @@ export default function ForgotPasswordForm() {
         disabled={isSubmitting || isPending}
         className="mt-2"
       >
-        {isPending ? <Spinner /> : "Gửi mã đặt lại"}
+        {isPending ? <Spinner /> : <><Send className="size-4" /> Gửi mã đặt lại</>}
       </Button>
     </form>
   );

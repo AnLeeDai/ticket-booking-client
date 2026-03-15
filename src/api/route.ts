@@ -1,9 +1,13 @@
-export const loginRoute = () => `/auth/login`;
+export const loginRoute = () => `login`;
 
-export const logoutRoute = () => `/auth/logout`;
+export const logoutRoute = () => `logout`;
 
-export const registerRoute = () => `/auth/register`;
+export const registerRoute = () => `register`;
 
-export const forgotPasswordRoute = () => `/auth/forgot-password`;
+export const forgotPasswordRoute = () => `forgot-password`;
 
-export const resetPasswordRoute = () => `/auth/reset-password`;
+export const resetPasswordRoute = () => `reset-password`;
+
+export const categoriesRoute = () => `categories`;
+
+export const categoryRoute = (id: string) => `categories/${id}`;

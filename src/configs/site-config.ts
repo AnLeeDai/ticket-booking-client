@@ -7,6 +7,7 @@ export const pageRoute = {
 
   // Admin routes
   adminDashboard: "/admin",
+  categoryManagement: "/admin/categories",
 
   // Employee routes
   employeeDashboard: "/employee",
@@ -14,3 +15,8 @@ export const pageRoute = {
   // Customer routes (uses home page)
   customerDashboard: "/",
 };
+
+export const adminNavItems = [
+  { to: pageRoute.adminDashboard, label: "Dashboard", icon: "LayoutDashboard" as const },
+  { to: pageRoute.categoryManagement, label: "Quản lý danh mục", icon: "FolderTree" as const },
+];

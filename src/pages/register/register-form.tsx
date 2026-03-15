@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useRegister } from "@/api/hooks/useRegister";
 import { pageRoute } from "@/configs/site-config";
+import { UserPlus } from "lucide-react";
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
 const PHONE_REGEX = /^[0-9]{10,11}$/;
@@ -239,7 +240,7 @@ export default function RegisterForm() {
         disabled={isSubmitting || isPending}
         className="mt-2"
       >
-        {isPending ? <Spinner /> : "Đăng ký"}
+        {isPending ? <Spinner /> : <><UserPlus className="size-4" /> Đăng ký</>}
       </Button>
     </form>
   );
