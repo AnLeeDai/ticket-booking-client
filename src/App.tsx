@@ -5,6 +5,7 @@ import SplashScreen from "./components/splash-screen";
 import ProtectedRoute from "./components/auth/protected-route";
 import { pageRoute } from "./configs/site-config";
 import CategoryPage from "./pages/admin/category/category-page";
+const MoviePage = lazy(() => import("./pages/admin/movie/movie-page"));
 
 // Lazy load layouts
 const AuthLayout = lazy(() => import("./layouts/auth-layout"));
@@ -45,6 +46,7 @@ export default function App() {
         >
           <Route path={pageRoute.adminDashboard} element={<AdminDashboardPage />} />
           <Route path={pageRoute.categoryManagement} element={<CategoryPage />} />
+          <Route path={pageRoute.movieManagement} element={<MoviePage />} />
         </Route>
 
         {/* Employee Routes */}

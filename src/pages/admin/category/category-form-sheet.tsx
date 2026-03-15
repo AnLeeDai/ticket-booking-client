@@ -10,12 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Spinner } from "@/components/ui/spinner";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetFooter,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 const categorySchema = z.object({
   name: z.string().min(1, "Tên danh mục là bắt buộc."),
@@ -32,7 +32,7 @@ interface CategoryFormSheetProps {
   isPending: boolean;
 }
 
-export function CategoryFormSheet({
+export function CategoryFormDialog({
   open,
   onOpenChange,
   editingCategory,
@@ -59,18 +59,18 @@ export function CategoryFormSheet({
   }, [open, editingCategory, reset]);
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
             {editingCategory ? "Chỉnh sửa danh mục" : "Thêm danh mục mới"}
-          </SheetTitle>
-        </SheetHeader>
+          </DialogTitle>
+        </DialogHeader>
 
         <form
           id="category-form"
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 px-4"
+          className="flex flex-col gap-4 px-6 pb-6 flex-1 overflow-y-auto"
         >
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="name">
@@ -109,7 +109,7 @@ export function CategoryFormSheet({
           </div>
         </form>
 
-        <SheetFooter>
+        <DialogFooter>
           <Button
             variant="outline"
             disabled={isPending}
@@ -121,8 +121,8 @@ export function CategoryFormSheet({
             {isPending && <Spinner className="size-4" />}
             {editingCategory ? "Lưu thay đổi" : "Tạo danh mục"}
           </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

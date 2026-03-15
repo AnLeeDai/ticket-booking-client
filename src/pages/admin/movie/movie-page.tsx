@@ -4,38 +4,33 @@ import { PlusIcon } from "lucide-react";
 
 import { createColumns } from "./column";
 import { DataTable } from "./data-table";
-import { CategoryFilters } from "./category-filters";
-import {
-  CategoryFormDialog,
-  type CategoryFormValues,
-} from "./category-form-sheet";
-import { CategoryDeleteDialog } from "./category-delete-dialog";
+import { MovieFilters } from "./movie-filters";
+import { MovieFormDialog } from "./movie-form-sheet";
+import { MovieDeleteDialog } from "./movie-delete-dialog";
 
 import {
-  useListCategories,
-  useCreateCategory,
-  useUpdateCategory,
-  useDeleteCategory,
-} from "@/api/hooks/useCategories";
-import type { Category } from "@/types/category-types";
+  useListMovies,
+  useCreateMovie,
+  useUpdateMovie,
+  useDeleteMovie,
+} from "@/api/hooks/useMovies";
+import type { Movie, MoviePayload } from "@/types/movie-types";
 
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
-export default function CategoryPage() {
+export default function MoviePage() {
   // ── Query param state ──
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [sortBy, setSortBy] = useState("name");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortBy, setSortBy] = useState("release_date");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
 
   // ── Sheet / dialog state ──
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-  const [deletingCategory, setDeletingCategory] = useState<Category | null>(
-    null,
-  );
+  const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
+  const [deletingMovie, setDeletingMovie] = useState<Movie | null>(null);
 
   // ── Debounce search ──
   useEffect(() => {
@@ -47,85 +42,86 @@ export default function CategoryPage() {
   }, [search]);
 
   // ── Data ──
-  const { data, isLoading } = useListCategories(
-    { search: debouncedSearch, sort_by: sortBy, sort_order: sortOrder, per_page: 20, page },
+  const { data, isLoading } = useListMovies(
+    {
+      search: debouncedSearch,
+      sort_by: sortBy,
+      sort_order: sortOrder,
+      per_page: 10,
+      page,
+    },
     { placeholderData: (prev) => prev },
   );
 
-  const categories = data?.data?.items ?? [];
+  const movies = data?.data?.items ?? [];
   const pagination = data?.data?.pagination;
   const lastPage = pagination?.last_page ?? 1;
   const total = pagination?.total ?? 0;
 
   // ── Mutations ──
-  const { mutateAsync: createCategory, isPending: isCreating } =
-    useCreateCategory({
-      onSuccess: (res) => {
-        toast.success(res.message || "Tạo danh mục thành công!");
-        setSheetOpen(false);
-      },
-      onError: (err) => toast.error(err.message),
-    });
+  const { mutateAsync: createMovie, isPending: isCreating } = useCreateMovie({
+    onSuccess: (res) => {
+      toast.success(res.message || "Tạo phim thành công!");
+      setSheetOpen(false);
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
-  const { mutateAsync: updateCategory, isPending: isUpdating } =
-    useUpdateCategory({
-      onSuccess: (res) => {
-        toast.success(res.message || "Cập nhật danh mục thành công!");
-        setSheetOpen(false);
-      },
-      onError: (err) => toast.error(err.message),
-    });
+  const { mutateAsync: updateMovie, isPending: isUpdating } = useUpdateMovie({
+    onSuccess: (res) => {
+      toast.success(res.message || "Cập nhật phim thành công!");
+      setSheetOpen(false);
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
-  const { mutateAsync: deleteCategory, isPending: isDeleting } =
-    useDeleteCategory({
-      onSuccess: (res) => {
-        toast.success(res.message || "Xóa danh mục thành công!");
-        setDeletingCategory(null);
-      },
-      onError: (err) => toast.error(err.message),
-    });
+  const { mutateAsync: deleteMovie, isPending: isDeleting } = useDeleteMovie({
+    onSuccess: (res) => {
+      toast.success(res.message || "Xóa phim thành công!");
+      setDeletingMovie(null);
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
   // ── Handlers ──
   const openCreate = useCallback(() => {
-    setEditingCategory(null);
+    setEditingMovie(null);
     setSheetOpen(true);
   }, []);
 
-  const openEdit = useCallback((category: Category) => {
-    setEditingCategory(category);
+  const openEdit = useCallback((movie: Movie) => {
+    setEditingMovie(movie);
     setSheetOpen(true);
   }, []);
 
-  const handleFormSubmit = async (values: CategoryFormValues) => {
-    if (editingCategory) {
-      await updateCategory({ id: editingCategory.id, payload: values });
+  const handleFormSubmit = async (payload: MoviePayload) => {
+    if (editingMovie) {
+      await updateMovie({ id: editingMovie.movie_id, payload });
     } else {
-      await createCategory(values);
+      await createMovie(payload);
     }
   };
 
-  const columns = createColumns(openEdit, (category) =>
-    setDeletingCategory(category),
-  );
+  const columns = createColumns(openEdit, (movie) => setDeletingMovie(movie));
 
   return (
     <div className="flex flex-col gap-4 p-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Quản lý danh mục</h1>
+          <h1 className="text-2xl font-semibold">Quản lý phim</h1>
           <p className="text-muted-foreground text-sm">
-            Tổng cộng {total} danh mục
+            Tổng cộng {total} phim
           </p>
         </div>
         <Button onClick={openCreate}>
           <PlusIcon />
-          Thêm danh mục
+          Thêm phim
         </Button>
       </div>
 
       {/* Filters */}
-      <CategoryFilters
+      <MovieFilters
         search={search}
         onSearchChange={setSearch}
         sortBy={sortBy}
@@ -146,7 +142,7 @@ export default function CategoryPage() {
           <Spinner />
         </div>
       ) : (
-        <DataTable columns={columns} data={categories} />
+        <DataTable columns={columns} data={movies} />
       )}
 
       {/* Pagination */}
@@ -177,22 +173,21 @@ export default function CategoryPage() {
       )}
 
       {/* Create / Edit dialog */}
-      <CategoryFormDialog
+      <MovieFormDialog
         open={sheetOpen}
         onOpenChange={setSheetOpen}
-        editingCategory={editingCategory}
+        editingMovie={editingMovie}
         onSubmit={handleFormSubmit}
         isPending={isCreating || isUpdating}
       />
 
       {/* Delete dialog */}
-      <CategoryDeleteDialog
-        category={deletingCategory}
-        onOpenChange={(open) => !open && setDeletingCategory(null)}
-        onConfirm={() => deletingCategory && deleteCategory(deletingCategory.id)}
+      <MovieDeleteDialog
+        movie={deletingMovie}
+        onOpenChange={(open) => !open && setDeletingMovie(null)}
+        onConfirm={() => deletingMovie && deleteMovie(deletingMovie.movie_id)}
         isPending={isDeleting}
       />
     </div>
   );
 }
-
