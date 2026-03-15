@@ -10,6 +10,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { pageRoute } from "@/configs/site-config";
+import { UserPlus } from "lucide-react";
 
 export default function LoginPage() {
   return (
@@ -36,6 +37,7 @@ export default function LoginPage() {
               to={pageRoute.register}
               className="text-primary font-medium hover:underline"
             >
+              <UserPlus className="size-3.5 inline-block mr-1" />
               Đăng ký ngay
             </Link>
           </p>

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useResetPassword } from "@/api/hooks/useResetPassword";
 import { pageRoute } from "@/configs/site-config";
+import { KeyRound } from "lucide-react";
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
 
@@ -172,7 +173,7 @@ export default function ResetPasswordForm() {
       />
 
       <Button type="submit" disabled={isSubmitting || isPending} className="mt-2">
-        {isPending ? <Spinner /> : "Đặt lại mật khẩu"}
+        {isPending ? <Spinner /> : <><KeyRound className="size-4" /> Đặt lại mật khẩu</>}
       </Button>
     </form>
   );
