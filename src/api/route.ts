@@ -11,3 +11,7 @@ export const resetPasswordRoute = () => `reset-password`;
 export const categoriesRoute = () => `categories`;
 
 export const categoryRoute = (id: string) => `categories/${id}`;
+
+export const moviesRoute = () => `movies`;
+
+export const movieRoute = (id: string) => `movies/${id}`;

@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/use-auth";
 import {
   LayoutDashboard,
   FolderTree,
+  Film,
   PanelLeftClose,
   PanelLeft,
   Home,
@@ -20,6 +21,7 @@ const navItems = adminNavItems;
 const iconMap = {
   LayoutDashboard,
   FolderTree,
+  Film,
 } as const;
 
 function SidebarNav({ collapsed }: { collapsed: boolean }) {
