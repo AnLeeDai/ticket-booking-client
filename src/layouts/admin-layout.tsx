@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   FolderTree,
   Film,
+  Users,
   PanelLeftClose,
   PanelLeft,
   Home,
@@ -22,6 +23,7 @@ const iconMap = {
   LayoutDashboard,
   FolderTree,
   Film,
+  Users,
 } as const;
 
 function SidebarNav({ collapsed }: { collapsed: boolean }) {

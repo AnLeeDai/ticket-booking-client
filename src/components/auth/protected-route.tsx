@@ -9,22 +9,6 @@ type ProtectedRouteProps = {
   allowedRoles?: UserRole[];
 };
 
-const roleHierarchy: Record<UserRole, number> = {
-  admin: 3,
-  employee: 2,
-  customer: 1,
-};
-
-function hasAccess(userRole: UserRole, allowedRoles: UserRole[]): boolean {
-  const userLevel = roleHierarchy[userRole];
-
-  const minRequiredLevel = Math.min(
-    ...allowedRoles.map((role) => roleHierarchy[role]),
-  );
-
-  return userLevel >= minRequiredLevel;
-}
-
 export default function ProtectedRoute({
   children,
   allowedRoles,
@@ -38,7 +22,7 @@ export default function ProtectedRoute({
   }
 
   if (allowedRoles && allowedRoles.length > 0) {
-    if (!role || !hasAccess(role, allowedRoles)) {
+    if (!role || !allowedRoles.includes(role)) {
       return <Navigate to={pageRoute.login} replace />;
     }
   }
