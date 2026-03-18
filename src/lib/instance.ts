@@ -51,6 +51,7 @@ instance.interceptors.response.use(
         error.message ||
         "Đã có lỗi xảy ra. Vui lòng thử lại.",
       status: error.response?.status,
+      errors: error.response?.data?.errors,
     };
 
     return Promise.reject(apiError);

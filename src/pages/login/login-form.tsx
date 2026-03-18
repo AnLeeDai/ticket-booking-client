@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { useLogin } from "@/api/hooks/useLogin";
 import { pageRoute } from "@/configs/site-config";
+import { removeToken } from "@/utils/local-storage";
 import { LogIn } from "lucide-react";
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
@@ -48,7 +49,7 @@ const getRedirectByRole = (role: string): string => {
     case "customer":
       return pageRoute.customerDashboard;
     default:
-      return pageRoute.home;
+      return pageRoute.login;
   }
 };
 
@@ -71,6 +72,13 @@ export default function LoginForm() {
 
   const { mutateAsync, isPending } = useLogin({
     onSuccess: (data) => {
+      if (data.data.role === "manager") {
+        removeToken();
+        toast.error("Tài khoản manager chưa được hỗ trợ trên giao diện này.");
+        navigate(pageRoute.login, { replace: true });
+        return;
+      }
+
       toast.success(data.message || "Đăng nhập thành công!");
 
       // Redirect based on user role
